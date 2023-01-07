@@ -1,10 +1,11 @@
-import logo from './logo.svg';
+
 import './App.css';
+import Register from './auth/register';
 
 function App() {
   return (
     <>
-    <h1>my first app</h1>
+    <Register/>
     </>
   );
 }

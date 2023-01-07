@@ -36,6 +36,8 @@ import '../App.css'
    .oneOf([Yup.ref("password"), null], "Passwords must match"),
   bloodGroup:Yup.string().required("required")
  });
+ const bloodGroup=["A+", "A-","B+", "B-", "AB+", "AB-", "O+","O-"]
+ const gender=["Male", "Female", "Others"]
  
  const Register = () => (
    <div className="Body">
@@ -67,9 +69,12 @@ import '../App.css'
            <Field name="age" placeholder="Age" className="Field" />
            {errors.age && touched.age ? (<div className="Errors">{errors.age}</div>) : null}
            <Field  className="Field" as="select" name="gender" placeholder="Gender">
-             <option value="male">Male</option>
-             <option value="female">Female</option>
-             <option value="others">Others</option>
+             <option defaultvalue>Select</option>
+             {gender.map(item => (
+                  <option  value={item}>
+                    {item}
+                  </option>
+                ))}
            </Field>
            {errors.gender && touched.gender ? <div className="Errors">{errors.gender}</div> : null}
            <Field name="email" placeholder="Email" type="email" className="Field" />
@@ -85,14 +90,12 @@ import '../App.css'
            <Field name="confirmPassword" type="password" placeholder="Confirm Password" className="Field" />
            {errors.confirmPassword && touched.confirmPassword ? <div className="Errors">{errors.confirmPassword}</div> : null}
            <Field  className="Field" as="select" name="bloodGroup" placeholder="Blood Group">
-             <option value="A+">A+</option>
-             <option value="A-">A-</option>
-             <option value="B+">B+</option>
-             <option value="B-">B-</option>
-             <option value="O+">O+</option>
-             <option value="O-">O-</option>
-             <option value="AB+">AB+</option>
-             <option value="AB-">AB-</option>
+            <option defaultvalue>Select</option>
+            {bloodGroup.map(item => (
+                  <option  value={item}>
+                    {item}
+                  </option>
+                ))}
            </Field>
            {errors.bloodGroup && touched.bloodGroup ? <div className="Errors">{errors.bloodGroup}</div> : null}
            <button className="btn" type="submit">Submit</button>

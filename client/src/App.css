@@ -1,5 +1,5 @@
 body{
-  font-family:Montserrat;
+  background-image:url('./assests/images/background.jpg');
 
 }
 .App {
@@ -52,12 +52,14 @@ body{
 .Form .Field{
   border-radius: 0.5rem;
   margin-top:10px;
-  height: 25px;
+  height: 40px;
   width:75%;
   padding-left:10px;
+  font-size:20px;
 }
 .Errors{
-  color:red;
+  color:rgb(192, 213, 7);
+  font-weight: bold;
 }
 .Body{
   align-items: center;
@@ -65,10 +67,19 @@ body{
   flex-direction: column;
   justify-content: center;
 }
+.Body h1{
+  font-size:30px;
+  color:#ffffff
+}
 .btn{
-  background-color: #34c2f3;
+  background-color: #520a0a;
   margin-top:10px;
   width:30%;
-  height:25px;
+  height:40px;
+  font-size:20px;
+  color:#ffffff;
   border-radius:1rem;
+  border: 2px solid #ffffff;
+  font-weight: bold;
 }
+

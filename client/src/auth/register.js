@@ -38,16 +38,15 @@ import '../App.css'
  });
  const bloodGroup=["A+", "A-","B+", "B-", "AB+", "AB-", "O+","O-"]
  const gender=["Male", "Female", "Others"]
- 
  const Register = () => (
    <div className="Body">
      <h1>Register</h1>
      <Formik
        initialValues={{
          fullName: '',
-         age:Number(),
+         age:"",
          gender:'',
-         phoneNumber:Number(),
+         phoneNumber:'',
          temporaryAddress:'',
          permanentAddress:'',
          email: '',
@@ -68,8 +67,8 @@ import '../App.css'
            ) : null}
            <Field name="age" placeholder="Age" className="Field" />
            {errors.age && touched.age ? (<div className="Errors">{errors.age}</div>) : null}
-           <Field  className="Field" as="select" name="gender" placeholder="Gender">
-             <option defaultvalue>Select</option>
+           <Field  className="Field" as="select" name="gender" placeholder="Select Gender">
+            <option value="">Select Gender</option>
              {gender.map(item => (
                   <option  value={item}>
                     {item}
@@ -89,8 +88,8 @@ import '../App.css'
            {errors.password && touched.password ? <div className="Errors">{errors.password}</div> : null}
            <Field name="confirmPassword" type="password" placeholder="Confirm Password" className="Field" />
            {errors.confirmPassword && touched.confirmPassword ? <div className="Errors">{errors.confirmPassword}</div> : null}
-           <Field  className="Field" as="select" name="bloodGroup" placeholder="Blood Group">
-            <option defaultvalue>Select</option>
+           <Field  className="Field" as="select" name="bloodGroup" placeholder=" Select Blood Group">
+            <option value="">Select Blood Group</option>
             {bloodGroup.map(item => (
                   <option  value={item}>
                     {item}

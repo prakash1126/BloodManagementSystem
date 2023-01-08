@@ -36,6 +36,33 @@ router.post('/register', async(req,res)=>{
         console.log(err)
     }
 })
+router.post("/login", async (req, res) => {
+    const user = await userDetails.findOne({email: req.body.email}).lean()
+    if(user){
+      try{
+      const {email,password} = user;
+      const isMatched= bcrypt.compareSync(req.body.password, password)
+      if(email && isMatched){
+        res.status(200).json({
+          msg:"logged in successfully",
+        })
+      }
+      else{
+        res.status(401).json({
+          error:"unauthorized user"
+        })
+      }
+      }
+      catch(err){
+        console.log(err)
+      }
+      }
+      else{
+        res.json({
+          msg:"user doesn't exist"
+        })
+      }
+  });  
 module.exports=router;
 
 

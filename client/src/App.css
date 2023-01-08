@@ -1,7 +1,6 @@
 body{
-  background-image:url('./assests/images/background.jpg');
   margin:auto;
-
+  background-color: rgba(153, 140, 140, 0.25);
 }
 .App {
   text-align: center;
@@ -63,11 +62,12 @@ body{
   font-weight: bold;
 }
 .Body{
+  background-image:url('./assests/images/background.jpg');
   margin-left:10rem;
   margin-top:1rem;
   width:75%;
+  height:98vh;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   justify-content: center;

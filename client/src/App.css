@@ -63,7 +63,11 @@ body{
   font-weight: bold;
 }
 .Body{
+  margin-left:10rem;
+  margin-top:1rem;
+  width:75%;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -73,6 +77,17 @@ body{
   color:#ffffff;
   margin:0px;
   padding:0px;
+}
+.submits{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width:50%
+}
+.submits Link{
+  font-weight: bold;
+  font-size:20;
+  
 }
 .btn{
   background-color: #520a0a;
@@ -85,4 +100,7 @@ body{
   border: 2px solid #ffffff;
   font-weight: bold;
 }
-
+.link{
+  color:#ffffff;
+  font-weight: bold;
+}

@@ -1,5 +1,6 @@
 import React from 'react'
 import '../App.css'
+import {Link} from 'react-router-dom'
  import { Formik, Form, Field } from 'formik';
  import * as Yup from 'yup';
  const registerSchema = Yup.object().shape({
@@ -7,9 +8,11 @@ import '../App.css'
      .min(2, 'Too Short!')
      .max(50, 'Too Long!')
      .required('required'),
-   age: Yup.string()
-    .min(2, 'Too short!')
-    .max(4, 'Too Long!')
+   age: Yup.number()
+   .typeError("That doesn't look age")
+   .positive("A phone number can't start with a minus")
+   .integer("A phone number can't include a decimal point")
+   .min(1)
     .required('required'),
    gender:Yup.string().required("required"),
    temporaryAddress: Yup.string()
@@ -21,10 +24,12 @@ import '../App.css'
    .max(50, 'Too Long!')
    .required('required'),
    email: Yup.string().email('Invalid email').required('required'),
-   phoneNumber: Yup.string()
-   .min(1, 'Too short!')
-   .max(10, 'Too Long!')
-   .required("required"),
+   phoneNumber: Yup.number()
+  .typeError("That doesn't look like a phone number")
+  .positive("A phone number can't start with a minus")
+  .integer("A phone number can't include a decimal point")
+  .min(10)
+  .required('A phone number is required'),
    password: Yup.string()
    .min(5, "Too Short!")
    .max(100, "Too Long!")
@@ -51,14 +56,31 @@ import '../App.css'
          permanentAddress:'',
          email: '',
          password:'',
+         confirmPassword:'',
          bloodGroup:''
        }}
        validationSchema={registerSchema}
-       onSubmit={values => {
-         // same shape as initial values
-         console.log(values);
-       }}
-     >
+       onSubmit= {async values => {
+        const {confirmPassword, ...updatedValues}=values
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedValues)
+      };
+      try {
+        const res=await fetch("http://localhost:5000/register", requestOptions)
+        const data=res.json()
+        if(res.status===200){
+          alert(data.msg)
+        }
+        else{
+          alert(data.error)
+        }
+    }
+    catch (error) {
+        console.error(error);
+    }}
+}>
        {({ errors, touched }) => (
          <Form className="Form">
            <Field name="fullName"  placeholder="Full Name" className="Field"/>
@@ -97,7 +119,8 @@ import '../App.css'
                 ))}
            </Field>
            {errors.bloodGroup && touched.bloodGroup ? <div className="Errors">{errors.bloodGroup}</div> : null}
-           <button className="btn" type="submit">Submit</button>
+           <button className="btn"type="submit">Submit</button>
+           <Link className="link" to="/">Already have an Account?</Link>
          </Form>
        )}
      </Formik>

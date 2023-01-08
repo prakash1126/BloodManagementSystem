@@ -1,8 +1,12 @@
 
 //importing express
 const express=require('express')
+//importing cors
+const cors=require('cors')
 //using express
 const app = express()
+//using cors
+app.use(cors());
 //using body-parser
 app.use(express.json())
 //importing connect from db

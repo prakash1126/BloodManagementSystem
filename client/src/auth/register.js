@@ -1,130 +1,203 @@
-import React from 'react'
-import '../App.css'
-import {Link} from 'react-router-dom'
- import { Formik, Form, Field } from 'formik';
- import * as Yup from 'yup';
- const registerSchema = Yup.object().shape({
-   fullName: Yup.string()
-     .min(2, 'Too Short!')
-     .max(50, 'Too Long!')
-     .required('required'),
-   age: Yup.number()
-   .typeError("That doesn't look age")
-   .positive("A phone number can't start with a minus")
-   .integer("A phone number can't include a decimal point")
-   .min(1)
-    .required('required'),
-   gender:Yup.string().required("required"),
-   temporaryAddress: Yup.string()
-   .min(2, 'Too short!')
-   .max(50, 'Too Long!')
-   .required('required'),
-   permanentAddress: Yup.string()
-   .min(2, 'Too short!')
-   .max(50, 'Too Long!')
-   .required('required'),
-   email: Yup.string().email('Invalid email').required('required'),
-   phoneNumber: Yup.number()
-  .typeError("That doesn't look like a phone number")
-  .positive("A phone number can't start with a minus")
-  .integer("A phone number can't include a decimal point")
-  .min(10)
-  .required('A phone number is required'),
-   password: Yup.string()
-   .min(5, "Too Short!")
-   .max(100, "Too Long!")
-   .required("required"),
- confirmPassword: Yup.string()
-   .min(8, "Too Short!")
-   .max(100, "Too Long!")
-   .required("required")
-   .oneOf([Yup.ref("password"), null], "Passwords must match"),
-  bloodGroup:Yup.string().required("required")
- });
- const bloodGroup=["A+", "A-","B+", "B-", "AB+", "AB-", "O+","O-"]
- const gender=["Male", "Female", "Others"]
- const Register = () => (
-   <div className="Body">
-     <h1>Register</h1>
-     <Formik
-       initialValues={{
-         fullName: '',
-         age:"",
-         gender:'',
-         phoneNumber:'',
-         temporaryAddress:'',
-         permanentAddress:'',
-         email: '',
-         password:'',
-         confirmPassword:'',
-         bloodGroup:''
-       }}
-       validationSchema={registerSchema}
-       onSubmit= {async values => {
-        const {confirmPassword, ...updatedValues}=values
-        const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedValues)
-      };
-      try {
-        const res=await fetch("http://localhost:5000/register", requestOptions)
-        const data=res.json()
-        if(res.status===200){
-          alert(data.msg)
-        }
-        else{
-          alert(data.error)
-        }
+import React from "react";
+import "../App.css";
+import { Formik, Form } from "formik";
+import { registerSchema } from "../schema";
+import { Grid, Box, Typography, Button} from "@mui/material";
+import Alert from '@mui/joy/Alert';
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+import TextFieldComponent from "../components/textFieldComponent";
+import SelectField from "../components/selectField";
+import Select from "../components/Select";
+import countries from "../data/countries.json";
+import DatePicker from "../components/datePicker";
+const bloodGroup = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+const gender = ["Male", "Female", "Others"];
+const Register = () => {
+  const handleSumbit = async (values) => {
+    const { confirmPassword, ...updatedValues } = values;
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedValues),
+    };
+    const res = await fetch("http://localhost:5000/register", requestOptions);
+    try {
+      const data = await res.json();
+      if (res.status === 200) {
+        return(
+          <>
+          <Alert severity="success">
+            {data.msg}
+          </Alert>
+          </>
+        )
+      } else {
+        return(
+          <>
+          <Alert severity="error">
+          {data.error}
+        </Alert>
+          </>
+        )
+          
+      }
+    } catch (error) {
+      console.error(error);
     }
-    catch (error) {
-        console.error(error);
-    }}
-}>
-       {({ errors, touched }) => (
-         <Form className="Form">
-           <Field name="fullName"  placeholder="Full Name" className="Field"/>
-           {errors.fullName && touched.fullName ? (
-             <div className="Errors">{errors.fullName}</div>
-           ) : null}
-           <Field name="age" placeholder="Age" className="Field" />
-           {errors.age && touched.age ? (<div className="Errors">{errors.age}</div>) : null}
-           <Field  className="Field" as="select" name="gender" placeholder="Select Gender">
-            <option value="">Select Gender</option>
-             {gender.map(item => (
-                  <option  value={item}>
-                    {item}
-                  </option>
-                ))}
-           </Field>
-           {errors.gender && touched.gender ? <div className="Errors">{errors.gender}</div> : null}
-           <Field name="email" placeholder="Email" type="email" className="Field" />
-           {errors.email && touched.email ? <div className="Errors">{errors.email}</div> : null}
-           <Field name="temporaryAddress" placeholder="Temporary Address" type="text" className="Field" />
-           {errors.temporaryAddress && touched.temporaryAddress ? <div className="Errors">{errors.temporaryAddress}</div> : null}
-           <Field name="permanentAddress" placeholder="Permanent Address" type="text" className="Field" />
-           {errors.permanentAddress && touched.permanentAddress ? <div className="Errors">{errors.permanentAddress}</div> : null}
-           <Field name="phoneNumber" placeholder="Phone Number" className="Field" />
-           {errors.phoneNumber && touched.phoneNumber ? <div className="Errors">{errors.phoneNumber}</div> : null}
-           <Field name="password" placeholder="Password" type="password"className="Field" />
-           {errors.password && touched.password ? <div className="Errors">{errors.password}</div> : null}
-           <Field name="confirmPassword" type="password" placeholder="Confirm Password" className="Field" />
-           {errors.confirmPassword && touched.confirmPassword ? <div className="Errors">{errors.confirmPassword}</div> : null}
-           <Field  className="Field" as="select" name="bloodGroup" placeholder=" Select Blood Group">
-            <option value="">Select Blood Group</option>
-            {bloodGroup.map(item => (
-                  <option  value={item}>
-                    {item}
-                  </option>
-                ))}
-           </Field>
-           {errors.bloodGroup && touched.bloodGroup ? <div className="Errors">{errors.bloodGroup}</div> : null}
-           <button className="btn"type="submit">Submit</button>
-           <Link className="link" to="/">Already have an Account?</Link>
-         </Form>
-       )}
-     </Formik>
-   </div>
- );
+  };
+  return (
+    <Formik
+      initialValues={{
+        fullName: "",
+        age: "",
+        gender: "",
+        dateOfBirth: "",
+        phoneNumber: "",
+        country: "",
+        city: "",
+        temporaryAddress: "",
+        permanentAddress: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        bloodGroup: "",
+      }}
+      validationSchema={registerSchema}
+      onSubmit={(values) => handleSumbit(values)}
+    >
+      <Form>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            maxWidth: "500px",
+            marginTop: "50px",
+            margin: "auto",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "5px",
+            boxShadow: "5px 5px 10px #ccc",
+            padding: "20px",
+          }}
+        >
+          <Typography
+            style={{ marginTop: "10px", fontSize: "30px", fontWeight: "bold" }}
+            variant="h2"
+          >
+            Register
+          </Typography>
+          <Grid style={{ margin: "auto", color: "red", marginTop: "10px" }}>
+            <Typography
+              style={{ fontSize: "15px", fontWeight: "bold" }}
+              variant="h5"
+            >
+              Your Personal Details
+            </Typography>
+          </Grid>
+          <Grid container style={{ marginTop: "5px" }} spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextFieldComponent label="Full Name " name="fullName" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextFieldComponent label="Age" name="age" />
+            </Grid>
+          </Grid>
+          <Grid container style={{ marginTop: "5px" }} spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextFieldComponent label="Phone Number" name="phoneNumber" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Select label="Gender" name="gender" options={gender} />
+            </Grid>
+          </Grid>
+          <Grid container style={{ marginTop: "5px" }} spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Select
+                label="Blood Group"
+                name="bloodGroup"
+                options={bloodGroup}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <DatePicker label="Date of Birth" name="dateOfBirth" />
+            </Grid>
+          </Grid>
+          <Grid style={{ margin: "auto", color: "red", marginTop: "10px" }}>
+            <Typography
+              style={{ fontSize: "15px", fontWeight: "bold" }}
+              variant="h5"
+            >
+              Your AddressDetails
+            </Typography>
+          </Grid>
+          <Grid container style={{ marginTop: "5px" }} spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <SelectField
+                label="Country "
+                name="country"
+                options={countries}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextFieldComponent label="City " name="city" />
+            </Grid>
+          </Grid>
+          <Grid container style={{ marginTop: "5px" }} spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextFieldComponent
+                label="Temporary Address "
+                name="temporaryAddress"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextFieldComponent
+                label="Permanent Address "
+                name="permanentAddress"
+              />
+            </Grid>
+          </Grid>
+          <Grid container style={{ marginTop: "5px" }} spacing={1}>
+            <Grid item xs={12} sm={12}>
+              <TextFieldComponent name="email" label="Email" />
+            </Grid>
+            <Grid style={{ margin: "auto", color: "red", marginTop: "10px" }}>
+              <Typography
+                style={{ fontSize: "15px", fontWeight: "bold" }}
+                variant="h5"
+              >
+                Your Security Crenditials
+              </Typography>
+            </Grid>
+            <Grid container style={{ marginTop: "5px" }} spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextFieldComponent
+                  label="Password"
+                  type="password"
+                  name="password"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextFieldComponent
+                  label="Confirm Password"
+                  type="password"
+                  name="confirmPassword"
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Button
+            endIcon={<LoginOutlinedIcon />}
+            type="submit"
+            variant="contained"
+            color="warning"
+            sx={{ marginTop: 3 }}
+          >
+            Register
+          </Button>
+        </Box>
+      </Form>
+    </Formik>
+  );
+};
 
-export default Register
+export default Register;

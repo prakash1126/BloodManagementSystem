@@ -8,27 +8,27 @@ const bcrypt = require("bcrypt");
 const router=express.Router();
 //creating post method register
 router.post('/register', async(req,res)=>{
-    console.log(req.body.password)
-    
     try{
     //finding existing user or not in database
     const user= await userDetails.findOne({email:req.body.email})
 
     if(!user){
           //hashing password 
-          
             const hash =bcrypt.hashSync(req.body.password, 10);
             req.body.password=hash;
         //creating new user
         const userCreate=userDetails.create(req.body)
         if(userCreate){
+          //giving response if user is created
             res.status(200).json({ msg: "user is created successfully" });
         }
         else{
+          //givind response if internal server error
             res.status(500).json({ error: "something went worng" });
         }
     }
     else{
+        //giving response if user is exist
         res.status(409).json({ error: "user already exists" });
     }
     }
@@ -43,8 +43,10 @@ router.post("/login", async (req, res) => {
       const {email,password} = user;
       const isMatched= bcrypt.compareSync(req.body.password, password)
       if(email && isMatched){
+        const {password, ...updatedUserDetails}=user
         res.status(200).json({
           msg:"logged in successfully",
+          userDetails:updatedUserDetails
         })
       }
       else{

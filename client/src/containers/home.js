@@ -4,9 +4,10 @@ import Header from '../components/header'
 const Home = () => {
     const {fullName}=useSelector(state=>state.userDetails)
   return (
+
     <div>
-      hello {fullName} welcome to home
         <Header/>
+        <h1>hello {fullName}</h1>
     </div>
   )
 }

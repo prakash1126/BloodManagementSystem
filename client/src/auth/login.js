@@ -7,7 +7,6 @@ import { Formik, Form } from 'formik'
 import { addUserDetails } from '../redux/action/userAction';
 import * as Yup from 'yup'
 import TextFieldComponent from '../components/textFieldComponent';
-
 const Login = () => {
     const navigate=useNavigate();
     const dispatch=useDispatch()

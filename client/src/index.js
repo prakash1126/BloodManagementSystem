@@ -12,13 +12,13 @@ const persistor=persistStore(store)
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  <BrowserRouter>
   <Provider store={store}>
-    <PersistGate persistor={persistor}>
-    <BrowserRouter>
+    <PersistGate loading={null} persistor={persistor}>
       <App />
-    </BrowserRouter>
     </PersistGate>
   </Provider>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

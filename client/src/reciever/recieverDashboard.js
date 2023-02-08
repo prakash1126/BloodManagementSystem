@@ -5,7 +5,9 @@ import { Formik, Form, useFormikContext } from "formik";
 import Select from "../components/Select";
 import * as Yup from 'yup'
 import axios from "axios";
+import { useSelector } from "react-redux";
 const Reciever = () => { 
+const{_id}=useSelector(state=>state.users)
 const recieverDetailsSchema= Yup.object().shape({
 fullName: Yup.string()
   .min(2, 'Too Short!')
@@ -52,6 +54,7 @@ detailsNote:Yup.string().required("required").max(1000, 'Too Long')
     formData.append("phoneNumber", values.phoneNumber);
     formData.append("detailsNote", values.detailsNote);
     formData.append('requisitionForm',values.requisitionForm=file.name)
+    formData.append('recieverId',values.recieverId=_id)
     axios.post('http://localhost:5000/reciever',formData)
     ResetInput()
     resetForm()

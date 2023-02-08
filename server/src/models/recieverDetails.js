@@ -5,6 +5,7 @@ const usersSchema=new mongoose.Schema({
     phoneNumber:{type:String, require:true},
     requisitionForm:{type:String, require: true},
     bloodGroup:{type:String, require:true},
-    detailsNote:{type:String, require:true}
+    detailsNote:{type:String, require:true},
+    recieverId:{type:String, require:true}
 }, {collection:'reciever'})
 module.exports = mongoose.model("recieverDetails", usersSchema);

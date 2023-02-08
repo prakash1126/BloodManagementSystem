@@ -16,16 +16,16 @@ const storage = multer.diskStorage({
   })
  const upload = multer({ storage: storage })
 
-
 router.post("/reciever", upload.single('image'), async(req,res) => {
-  console.log(req)
+  // console.log(req)
  const recieverDetails=new RecieverDetails(
   {
     fullName:req.body.fullName,
     bloodGroup:req.body.bloodGroup,
     detailsNote:req.body.detailsNote,
     phoneNumber:req.body.phoneNumber,
-    requisitionForm:req.body.requisitionForm
+    requisitionForm:req.body.requisitionForm,
+    recieverId:req.body.recieverId
   }
  )
  const data= await recieverDetails.save()

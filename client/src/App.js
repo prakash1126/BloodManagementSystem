@@ -7,18 +7,13 @@ import {Routes, Route} from 'react-router-dom'
 import Login from './auth/login';
 import Admin from './auth/admin';
 import Home from './containers/home';
+import OptionalRoute from './components/optionalRoutes';
 
 function App() {
   return (
     <>
-    <Routes>
-      <Route path="/" element={<Login/>}/>
-      <Route path="/register" element={<Register/>}/>
-      <Route path="/admin" element={<Admin/>}/>
-      <Route path="/home" element={<Home/>}/>
-    </Routes>
+    <OptionalRoute/>
     </>
-   
   );
 }
 export default App;

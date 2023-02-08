@@ -1,13 +1,8 @@
 import React from 'react'
-import { useSelector} from 'react-redux'
-import Header from '../components/header'
-const Home = () => {
-    const {fullName}=useSelector(state=>state.userDetails)
+const Home = () => {   
   return (
-
     <div>
-        <Header/>
-        <h1>hello {fullName}</h1>
+      <h1>Welcome to Home</h1>
     </div>
   )
 }

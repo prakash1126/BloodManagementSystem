@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 //importing router
 const router=express.Router();
 //creating post method register
+var jwt = require('jsonwebtoken');
 router.post('/register', async(req,res)=>{
     try{
     //finding existing user or not in database
@@ -38,10 +39,12 @@ router.post('/register', async(req,res)=>{
 })
 router.post("/login", async (req, res) => {
     const user = await userDetails.findOne({email: req.body.email}).lean()
-    if(user){
+    if(user) {
+      const {password,email}=user
       try{
-      const {email,password} = user;
       const isMatched= bcrypt.compareSync(req.body.password, password)
+      const token =jwt.sign({email: req.body.email}, process.env.SECRET_TOKEN_KEY);
+     user.token = token
       if(email && isMatched){
         const {password, ...updatedUserDetails}=user
         res.status(200).json({

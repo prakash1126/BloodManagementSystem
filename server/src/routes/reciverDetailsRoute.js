@@ -46,8 +46,19 @@ router.post("/reciever", upload.single('image'), async(req,res) => {
 module.exports = router;
 
 
-router.get("/reciever", (req, res) => {
-  res.json({
-    msg: "hello from reciever get",
-  });
+router.get("/reciever", async (req, res) => {
+try {
+    const data = await RecieverDetails.find()
+    if(data){
+        res.status(200).json({
+            validDetails: data
+        })
+    }else{
+        res.status(500).json({
+            msg: "something went wrong"
+        })
+    }
+} catch (err) {
+    console.log(err);
+}
 });

@@ -1,0 +1,17 @@
+.container {
+  background: #8008749d;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  max-width: 80rem;
+  max-height: 20rem;
+}
+.recieverId {
+  background: rgb(99, 3, 3);
+}
+.details {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}

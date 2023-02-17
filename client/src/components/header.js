@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import AppBar from "@mui/material/AppBar";
 import logo from "../assests/images/logo.png";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -16,6 +16,7 @@ const Header = () => {
   const navigate = useNavigate();
   const triggerLogout = () => {
     dispatch(logoutDetails());
+    localStorage.clear(); 
     navigate("/");
   };
   const donorPage = () => {
@@ -26,6 +27,15 @@ const Header = () => {
   };
   const { email, fullName } = useSelector((state) => state.users);
   const navItems = ["Home", "About Us", "Contacts", "FAQS"];
+  useEffect(() => {
+    const storedState = localStorage.getItem('bool1');
+    const storeState2=localStorage.getItem('bool2')
+    if (storedState !== null||storeState2!==null) {
+
+      setBool1(JSON.parse(storedState));
+       setBool2(JSON.parse(storeState2));
+    }
+  }, []);
   return (
     <AppBar
       position="static"
@@ -85,6 +95,8 @@ const Header = () => {
                   onClick={() => {
                     donorPage();
                     setBool1(true);
+                    localStorage.setItem('bool1', true);
+
                   }}
                 >
                   Donor
@@ -100,6 +112,7 @@ const Header = () => {
                   onClick={() => {
                     recieverPage();
                     setBool2(true);
+                    localStorage.setItem('bool2', true);
                   }}
                 >
                   Reciever

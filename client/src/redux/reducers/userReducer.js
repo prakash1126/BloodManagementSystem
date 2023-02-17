@@ -14,10 +14,12 @@ const intialState={
     phoneNumber:'',
     email:'',
     bloodGroup:'',
-    role:''
+    loggedinAs:''
 }
 //creating user Reducer
 export const userReducer=(state=intialState,action)=>{
+  debugger;
+ console.log(action.payload)
     switch (action.type) {
         case ADD_USER_DETAILS:
           const {fullName, email, token,_id} = action.payload;

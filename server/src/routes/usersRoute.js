@@ -45,11 +45,12 @@ router.post("/login", async (req, res) => {
       const isMatched= bcrypt.compareSync(req.body.password, password)
       const token =jwt.sign({email: req.body.email}, process.env.SECRET_TOKEN_KEY);
      user.token = token
+    //  user.loggedinAs=req.body.loggedinAs
       if(email && isMatched){
         const {password, ...updatedUserDetails}=user
         res.status(200).json({
           msg:"logged in successfully",
-          userDetails:updatedUserDetails
+          userDetails:updatedUserDetails,
         })
       }
       else{

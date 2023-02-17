@@ -5,7 +5,6 @@ import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-
 const Donor = () => {
   const [recieverDetails, setRecieverDetails] = useState([]);
   const fetchDetails = async () => {
@@ -18,7 +17,7 @@ const Donor = () => {
   }, []);
   return (
     <>
-      <div className="searchBox">
+      <div>
         <Paper
           component="form"
           sx={{
